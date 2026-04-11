@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>FIDE Rating Calculator 2026 | Chess Elo Estimator</title>
+    <title>FIDE Rating Calculator | Chess Elo Estimator</title>
     <meta name="description" content="Calculate your new FIDE rating with the latest 2026 regulations. Includes the 2650+ elite rule, dynamic K-factors, and support for Classical, Rapid, and Blitz.">
     <meta name="keywords" content="FIDE rating calculator, chess elo calculator, FIDE 2026 rules, chess rating estimator, 2650 elite rule">
     <meta name="author" content="Pro Chess Tools">
@@ -33,6 +33,15 @@
         "Mobile-First Touch Interface"
       ]
     }
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYCGD8ZQ75"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VYCGD8ZQ75', { 'anonymize_ip': true });
     </script>
 
     <style>
@@ -186,6 +195,12 @@
         const input = document.getElementById('oppRating');
         const val = parseInt(input.value);
         if (!val) return;
+
+        gtag('event', 'calculate_game', {
+          'opponent_rating': val,
+          'result': res === 1 ? 'win' : res === 0.5 ? 'draw' : 'loss'
+        });
+
         state.games.push({ opp: val, result: res, id: Date.now() });
         input.value = '';
         input.focus();
