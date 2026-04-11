@@ -248,7 +248,21 @@
         document.getElementById('tableCard').style.display = active ? 'block' : 'none';
         document.getElementById('resNew').innerText = active ? Math.round(state.myRating + totalChange) : "—";
         document.getElementById('resChange').innerText = active ? (totalChange >= 0 ? '+' : '') + Math.round(totalChange) : "Add games to calculate";
-        document.getElementById('warning').style.display = (state.type === 'classical' && state.myRating >= 2650) ? 'block' : 'none';
+
+        const isClassicalElite = (state.type === 'classical' && state.myRating >= 2650);
+        const warningEl = document.getElementById('warning');
+
+        if (isClassicalElite) {
+            warningEl.style.display = 'block';
+
+            gtag('event', 'elite_calculation_active', {
+                'current_rating': state.myRating,
+                'time_control': state.type,
+                'method': 'fide_2026_no_cap'
+            });
+        } else {
+            warningEl.style.display = 'none';
+        }
     }
 
     document.getElementById('myRating').addEventListener('input', render);
