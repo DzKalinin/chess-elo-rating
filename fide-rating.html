@@ -181,6 +181,9 @@
         .segmented-control button.active { background: var(--bg); color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
         .k-sub { font-size: 0.65rem; font-weight: 400; opacity: 0.7; }
         .field-hint { font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.4rem; min-height: 1.2em; }
+        .field-hint.error { color: var(--loss); }
+        input.error { border-color: var(--loss); }
+        .res-btn:disabled { opacity: 0.4; cursor: not-allowed; }
         .result-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 4px; width: 100%; }
         .res-btn { border: none; padding: 14px; border-radius: 10px; color: white; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
         .win { background: var(--win); } .draw { background: var(--draw); } .loss { background: var(--loss); }
@@ -227,6 +230,7 @@
         <div class="input-stack">
             <label for="myRating">Current FIDE Rating</label>
             <input type="number" id="myRating" value="1500" inputmode="numeric">
+            <p id="myRating-hint" class="field-hint"></p>
         </div>
         <div class="input-stack">
             <label>Time Control</label>
@@ -251,6 +255,7 @@
         <div class="input-stack">
             <label for="oppRating">Add Opponent</label>
             <input type="number" id="oppRating" placeholder="Opponent Rating" inputmode="numeric">
+            <p id="oppRating-hint" class="field-hint"></p>
             <div class="result-actions">
                 <button onclick="addGame(1)" class="res-btn win" aria-label="Add Win">WIN</button>
                 <button onclick="addGame(0.5)" class="res-btn draw" aria-label="Add Draw">DRAW</button>
@@ -321,10 +326,28 @@
         return 1 / (1 + Math.pow(10, diff / 400));
     }
 
+    function validateRating(inputId, hintId) {
+        const input = document.getElementById(inputId);
+        const hint = document.getElementById(hintId);
+        const val = parseInt(input.value);
+        const invalid = input.value !== '' && (isNaN(val) || val < 0 || val > 3100);
+        input.classList.toggle('error', invalid);
+        if (hint) { hint.textContent = invalid ? 'Must be between 0 – 3100' : ''; hint.classList.toggle('error', invalid); }
+        return !invalid;
+    }
+
+    function updateGameButtons() {
+        const input = document.getElementById('oppRating');
+        const val = parseInt(input.value);
+        const invalid = input.value !== '' && (isNaN(val) || val < 0 || val > 3100);
+        document.querySelectorAll('.res-btn').forEach(b => b.disabled = invalid);
+    }
+
     function addGame(res) {
         const input = document.getElementById('oppRating');
         const val = parseInt(input.value);
-        if (!val) return;
+        if (!input.value) return;
+        if (!validateRating('oppRating', 'oppRating-hint')) return;
 
         gtag('event', 'calculate_game', {
           'opponent_rating': val,
@@ -418,7 +441,8 @@
         });
     }
 
-    document.getElementById('myRating').addEventListener('input', render);
+    document.getElementById('myRating').addEventListener('input', () => { validateRating('myRating', 'myRating-hint'); render(); });
+    document.getElementById('oppRating').addEventListener('input', () => { validateRating('oppRating', 'oppRating-hint'); updateGameButtons(); });
     document.getElementById('oppRating').addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && this.value) document.querySelector('.res-btn.win').focus();
     });
