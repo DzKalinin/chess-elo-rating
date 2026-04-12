@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/fide-rating", "destination": "/fide-rating.html" },
+    { "source": "/cfc-rating", "destination": "/cfc-rating.html" }
+  ],
+  "redirects": [
+    { "source": "/", "destination": "/fide-rating", "permanent": true }
+  ]
+}

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FIDE Rating Calculator | Chess Elo Estimator 2026</title>
+    <meta name="description" content="Calculate your new FIDE chess rating under 2026 regulations. Supports Classical, Rapid, and Blitz, all K-factors, and the 2650+ elite exception that removes the 400-point cap.">
+    <meta name="keywords" content="FIDE rating calculator, chess elo calculator, FIDE 2026 rules, chess rating estimator, 2650 elite rule">
+    <meta name="author" content="Pro Chess Tools">
+
+    <link rel="canonical" href="https://chess-elo-rating.vercel.app/fide-rating">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="FIDE Rating Calculator 2026 | Chess Elo Estimator">
+    <meta property="og:description" content="Fast, mobile-friendly calculator for FIDE chess ratings including the 2026 elite player regulations and 2650+ exception.">
+    <meta property="og:site_name" content="Chess Rating Tools">
+    <meta property="og:url" content="https://chess-elo-rating.vercel.app/fide-rating">
+    <meta property="og:image" content="https://chess-elo-rating.vercel.app/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FIDE Rating Calculator 2026 | Chess Elo Estimator">
+    <meta name="twitter:description" content="Fast, mobile-friendly calculator for FIDE chess ratings including the 2026 elite player regulations and 2650+ exception.">
+    <meta name="twitter:image" content="https://chess-elo-rating.vercel.app/og-image.svg">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♟</text></svg>">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "FIDE Rating Calculator 2026",
+      "url": "https://chess-elo-rating.vercel.app/fide-rating",
+      "description": "Calculate your new FIDE chess rating under 2026 regulations. Supports Classical, Rapid, and Blitz, all K-factors, and the 2650+ elite exception that removes the 400-point cap.",
+      "screenshot": "https://chess-elo-rating.vercel.app/og-image.svg",
+      "operatingSystem": "Web",
+      "applicationCategory": "UtilityApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "FIDE 2026 Regulations Compliance",
+        "Elite 2650+ Classical Rule Support",
+        "Classical, Rapid, and Blitz Time Controls",
+        "K-Factor Selection: K=40 / K=20 / K=10",
+        "Mobile-First Touch Interface"
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What FIDE rating regulations does this calculator use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This calculator implements the official FIDE Rating Regulations (effective March 2024), the primary document governing K-factors, expected score, and initial rating. Two amendments extend those rules: the 2650+ Classical exception (October 2025) and the faster time-control inclusion (January 2026)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the 2650+ Classical exception in FIDE ratings?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A FIDE Council amendment effective October 2025 removed the 400-point rating difference cap for Classical games involving a player rated 2650 or above. Previously, the cap prevented extreme rating gaps from being fully reflected in Elo calculations; the amendment ensures elite results are counted at full weight."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can faster time controls count as Classical FIDE rating?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A January 2026 resolution allows certain events with time controls such as 45 minutes + 30 seconds increment to be rated as standard Classical chess, provided they meet FIDE's criteria for major events."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is chess Elo rating change calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Expected score: E = 1 / (1 + 10^((opponent − player) / 400)). Rating change: Δ = K × (result − E), where result is 1 for a win, 0.5 for a draw, 0 for a loss. The K-factor controls how much a single result can move your rating."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the FIDE rating system differ from CFC?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The FIDE system uses a continuous expected-score formula. The CFC (Canadian Chess Federation) system uses an official 51-band lookup table instead, applies bonus points for exceptional tournament performance, and has a single rating list with no time-control variants."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYCGD8ZQ75"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VYCGD8ZQ75', { 'anonymize_ip': true });
+    </script>
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #ffffff; --bg-secondary: #f5f5f3; --bg-hero: #0c447c;
+            --text: #1a1a1a; --text-secondary: #6b6b6b; --accent: #0c447c;
+            --border: rgba(0,0,0,0.1); --win: #4caf50; --draw: #ff9800;
+            --loss: #f44336; --radius: 12px;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1e1e1e; --bg-secondary: #2a2a2a; --bg-hero: #1a3a5a;
+                --text: #f0f0f0; --text-secondary: #a0a0a0; --accent: #85b7eb;
+                --border: rgba(255,255,255,0.1);
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+            background: var(--bg-secondary); color: var(--text); padding: 1rem;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .container { width: 100%; max-width: 500px; }
+        .hero-title { font-size: 1.25rem; font-weight: 700; }
+        .tab-nav {
+            display: flex;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border);
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            border-radius: 7px;
+            text-decoration: none;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .tab.is-active {
+            background: var(--bg);
+            color: var(--text);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .hero-card {
+            background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 1.5rem; margin-bottom: 1rem; text-align: center; transition: all 0.4s ease; opacity: 0.6;
+        }
+        .hero-card.is-active { background: var(--bg-hero); color: white; opacity: 1; box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+        .new-rating { font-size: 3.5rem; font-weight: 800; line-height: 1; margin: 0.5rem 0; }
+        .label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
+        .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 0.75rem; width: 100%; }
+        .input-stack { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem; width: 100%; }
+        .input-stack:last-child { margin-bottom: 0; }
+        label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); font-size: 1rem; outline: none; display: block; }
+        .segmented-control { display: flex; background: var(--bg-secondary); padding: 4px; border-radius: 10px; width: 100%; }
+        .segmented-control button { flex: 1; border: none; padding: 10px; border-radius: 7px; background: transparent; color: var(--text-secondary); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 2px; line-height: 1; }
+        .segmented-control button.active { background: var(--bg); color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .k-sub { font-size: 0.65rem; font-weight: 400; opacity: 0.7; }
+        .field-hint { font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.4rem; min-height: 1.2em; }
+        .result-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 4px; width: 100%; }
+        .res-btn { border: none; padding: 14px; border-radius: 10px; color: white; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+        .win { background: var(--win); } .draw { background: var(--draw); } .loss { background: var(--loss); }
+        table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        th { text-align: left; font-size: 0.7rem; color: var(--text-secondary); padding-bottom: 10px; text-transform: uppercase; }
+        td { padding: 14px 0; border-top: 1px solid var(--border); font-size: 0.95rem; }
+        .change-pill { font-weight: 700; font-family: monospace; text-align: right; }
+        .badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .warning-banner { background: #fff3cd; color: #856404; padding: 12px; border-radius: 8px; font-size: 0.8rem; margin-bottom: 1rem; border: 1px solid #ffeeba; }
+        .delete-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.2rem; padding-left: 10px; }
+
+        /* SEO Content Styles */
+        .seo-content { margin-top: 2rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+        .seo-content h2 { color: var(--text); font-size: 1.1rem; margin-bottom: 0.5rem; margin-top: 1.5rem; }
+        .seo-content a { color: var(--accent); }
+        footer { margin-top: 3rem; padding: 1rem; text-align: center; font-size: 0.75rem; color: var(--text-secondary); width: 100%; border-top: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+
+<main class="container">
+    <nav class="tab-nav" aria-label="Calculator type">
+        <a href="/fide-rating" class="tab is-active">FIDE Rating</a>
+        <a href="/cfc-rating" class="tab">CFC Rating</a>
+    </nav>
+
+    <header style="text-align: center; margin-bottom: 1.5rem;">
+        <h1 class="hero-title">FIDE Rating Calculator</h1>
+    </header>
+
+    <div id="hero" class="hero-card" aria-live="polite">
+        <div class="label">New Estimated Rating</div>
+        <div id="resNew" class="new-rating">—</div>
+        <div id="resChange">Add games to calculate</div>
+    </div>
+
+    <section class="card" aria-label="Settings">
+        <div class="input-stack">
+            <label for="myRating">Current FIDE Rating</label>
+            <input type="number" id="myRating" value="1500" inputmode="numeric">
+        </div>
+        <div class="input-stack">
+            <label>Time Control</label>
+            <div class="segmented-control">
+                <button onclick="updateType('classical')" id="t-classical" class="active">Classical</button>
+                <button onclick="updateType('rapid')" id="t-rapid">Rapid</button>
+                <button onclick="updateType('blitz')" id="t-blitz">Blitz</button>
+            </div>
+        </div>
+        <div class="input-stack">
+            <label>K-Factor</label>
+            <div class="segmented-control">
+                <button onclick="updateK(40)" id="k-40">K=40<span class="k-sub">&lt;30 games</span></button>
+                <button onclick="updateK(20)" id="k-20" class="active">K=20<span class="k-sub">Standard</span></button>
+                <button onclick="updateK(10)" id="k-10">K=10<span class="k-sub">≥2400 / 30mo</span></button>
+            </div>
+            <p id="k-info" class="field-hint"></p>
+        </div>
+    </section>
+
+    <section class="card" aria-label="Game Entry">
+        <div class="input-stack">
+            <label for="oppRating">Add Opponent</label>
+            <input type="number" id="oppRating" placeholder="Opponent Rating" inputmode="numeric">
+            <div class="result-actions">
+                <button onclick="addGame(1)" class="res-btn win" aria-label="Add Win">WIN</button>
+                <button onclick="addGame(0.5)" class="res-btn draw" aria-label="Add Draw">DRAW</button>
+                <button onclick="addGame(0)" class="res-btn loss" aria-label="Add Loss">LOSS</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="warning" class="warning-banner" style="display: none;">
+        ⚠️ <strong>2650+ Rule:</strong> The 400-point cap is disabled for Classical.
+    </div>
+
+    <section class="card" id="tableCard" style="display: none;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Opponent</th>
+                    <th>Result</th>
+                    <th style="text-align:right">Δ Elo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="gamesList"></tbody>
+        </table>
+    </section>
+
+    <article class="seo-content">
+        <h2>About the FIDE Rating Regulations</h2>
+        <p>This calculator implements the official <a href="https://handbook.fide.com/chapter/B022024" target="_blank" rel="noopener">FIDE Rating Regulations (effective March 2024)</a>, the primary document governing K-factors, expected score, and initial rating. Two amendments extend those rules: the 2650+ Classical exception (October 2025) and the faster time-control inclusion (January 2026).</p>
+
+        <h2>The 2650+ Classical Exception</h2>
+        <p>A <a href="https://www.fide.com/fide-council-approves-targeted-amendment-to-rating-regulation/" target="_blank" rel="noopener">FIDE Council amendment effective October 2025</a> removed the 400-point rating difference cap for Classical games involving a player rated 2650 or above. Previously, the cap prevented extreme rating gaps from being fully reflected in Elo calculations; the amendment ensures elite results are counted at full weight.</p>
+
+        <h2>Faster Time Controls Now Count</h2>
+        <p>A <a href="https://www.fide.com/fide-updates-rating-regulations-to-include-faster-time-controls-for-major-events/" target="_blank" rel="noopener">January 2026 resolution</a> allows certain events with time controls such as 45 minutes + 30 seconds increment to be rated as standard Classical chess, provided they meet FIDE's criteria for major events. This calculator applies Classical rating rules to all games you enter.</p>
+
+        <h2>How Elo Change is Calculated</h2>
+        <p>Expected score: <strong>E = 1 / (1 + 10<sup>(opponent − player) / 400</sup>)</strong>. Rating change: <strong>Δ = K × (result − E)</strong>, where result is 1 for a win, 0.5 for a draw, 0 for a loss. The K-factor controls how much a single result can move your rating.</p>
+
+        <h2>FIDE vs CFC Rating Systems</h2>
+        <p>The FIDE system uses the continuous formula above. The <a href="/cfc-rating">CFC (Canadian Chess Federation) system</a> uses an official 51-band lookup table instead, applies bonus points for exceptional tournament performance, and has a single rating list with no time-control variants.</p>
+    </article>
+</main>
+
+<footer>
+    <p>Unofficial calculator • Based on FIDE Rating Regulations 2024</p>
+</footer>
+
+<script>
+    let state = { myRating: 1500, type: 'classical', k: 20, games: [] };
+
+    const K_INFO = {
+        40: 'For players with fewer than 30 rated games, or events with an average rating below 1600.',
+        20: 'Standard rate for players whose rating has never reached 2400.',
+        10: 'For players who have held a FIDE rating of 2400 or above for at least 30 consecutive months.'
+    };
+
+    function calculateExpected(ra, rb, type) {
+        let diff = rb - ra;
+        const isEliteClassical = type === 'classical' && ra >= 2650;
+        if (!isEliteClassical && Math.abs(diff) > 400) {
+            diff = diff > 0 ? 400 : -400;
+        }
+        return 1 / (1 + Math.pow(10, diff / 400));
+    }
+
+    function addGame(res) {
+        const input = document.getElementById('oppRating');
+        const val = parseInt(input.value);
+        if (!val) return;
+
+        gtag('event', 'calculate_game', {
+          'opponent_rating': val,
+          'result': res === 1 ? 'win' : res === 0.5 ? 'draw' : 'loss'
+        });
+
+        state.games.push({ opp: val, result: res, id: Date.now() });
+        input.value = '';
+        input.focus();
+        render();
+    }
+
+    function deleteGame(id) {
+        state.games = state.games.filter(g => g.id !== id);
+        render();
+    }
+
+    function updateType(t) { state.type = t; render(); }
+    function updateK(val) { state.k = val; render(); }
+
+    function render() {
+        state.myRating = parseInt(document.getElementById('myRating').value) || 0;
+        document.querySelectorAll('.segmented-control button').forEach(b => b.classList.remove('active'));
+        document.getElementById(`t-${state.type}`).classList.add('active');
+        document.getElementById(`k-${state.k}`).classList.add('active');
+        document.getElementById('k-info').textContent = K_INFO[state.k];
+
+        const list = document.getElementById('gamesList');
+        list.innerHTML = '';
+        let totalChange = 0;
+
+        state.games.forEach(g => {
+            const exp = calculateExpected(state.myRating, g.opp, state.type);
+            const delta = state.k * (g.result - exp);
+            totalChange += delta;
+
+            const label = g.result === 1 ? 'WIN' : g.result === 0.5 ? 'DRAW' : 'LOSS';
+            const color = g.result === 1 ? 'var(--win)' : g.result === 0.5 ? 'var(--draw)' : 'var(--loss)';
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${g.opp}</strong></td>
+                <td><span class="badge" style="background:${color}22; color:${color}">${label}</span></td>
+                <td class="change-pill" style="color:${delta >= 0 ? 'var(--win)' : 'var(--loss)'}">${delta >= 0 ? '+' : ''}${delta.toFixed(1)}</td>
+                <td style="text-align:right"><button class="delete-btn" onclick="deleteGame(${g.id})" aria-label="Remove game">✕</button></td>
+            `;
+            list.appendChild(row);
+        });
+
+        const active = state.games.length > 0;
+        document.getElementById('hero').classList.toggle('is-active', active);
+        document.getElementById('tableCard').style.display = active ? 'block' : 'none';
+        document.getElementById('resNew').innerText = active ? Math.round(state.myRating + totalChange) : "—";
+        document.getElementById('resChange').innerText = active ? (totalChange >= 0 ? '+' : '') + Math.round(totalChange) : "Add games to calculate";
+
+        const isClassicalElite = (state.type === 'classical' && state.myRating >= 2650);
+        const warningEl = document.getElementById('warning');
+
+        if (isClassicalElite) {
+            warningEl.style.display = 'block';
+
+            gtag('event', 'elite_calculation_active', {
+                'current_rating': state.myRating,
+                'time_control': state.type,
+                'method': 'fide_2026_no_cap'
+            });
+        } else {
+            warningEl.style.display = 'none';
+        }
+    }
+
+    document.getElementById('myRating').addEventListener('input', render);
+    render();
+</script>
+</body>
+</html>

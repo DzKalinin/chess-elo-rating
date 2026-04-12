@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CFC Rating Calculator | Canadian Chess Rating Estimator</title>
+    <meta name="description" content="Calculate your Canadian Chess Federation (CFC) rating. Includes the official expected-score lookup table, automatic K-factor (K=32 / K=16), bonus points, and performance rating.">
+    <meta name="keywords" content="CFC rating calculator, Canadian chess rating, chess federation canada, CFC elo, chess rating estimator canada">
+    <meta name="author" content="Pro Chess Tools">
+
+    <link rel="canonical" href="https://chess-elo-rating.vercel.app/cfc-rating">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CFC Rating Calculator | Canadian Chess Rating Estimator">
+    <meta property="og:description" content="Calculate your CFC chess rating with the official lookup table, bonus points, and performance rating. Free and mobile-friendly.">
+    <meta property="og:site_name" content="Chess Rating Tools">
+    <meta property="og:url" content="https://chess-elo-rating.vercel.app/cfc-rating">
+    <meta property="og:image" content="https://chess-elo-rating.vercel.app/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CFC Rating Calculator | Canadian Chess Rating Estimator">
+    <meta name="twitter:description" content="Calculate your CFC chess rating with the official lookup table, bonus points, and performance rating. Free and mobile-friendly.">
+    <meta name="twitter:image" content="https://chess-elo-rating.vercel.app/og-image.svg">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♟</text></svg>">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "CFC Rating Calculator — Chess Federation of Canada",
+      "url": "https://chess-elo-rating.vercel.app/cfc-rating",
+      "description": "Calculate your Canadian Chess Federation (CFC) rating. Includes the official expected-score lookup table, automatic K-factor (K=32 / K=16), bonus points, and performance rating.",
+      "screenshot": "https://chess-elo-rating.vercel.app/og-image.svg",
+      "operatingSystem": "Web",
+      "applicationCategory": "UtilityApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "CFC Official Expected Score Lookup Table",
+        "Automatic K-Factor: K=32 below 2199, K=16 above",
+        "2199 Rating Threshold Handling",
+        "Bonus Points (Regular + Lifetime High)",
+        "Performance Rating Display",
+        "Mobile-First Touch Interface"
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do CFC ratings differ from FIDE ratings?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Instead of a continuous formula, the CFC Handbook Section 4 defines expected score through a 51-band lookup table based on rating difference. Each band covers a range of differences and maps to a fixed expected score. CFC also uses a single rating list — there are no separate Classical, Rapid, or Blitz ratings."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the 2199 rating threshold in CFC chess?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CFC uses two K-factors: K=32 for players rated below 2199, and K=16 for players rated 2199 or above. The lower K for strong players stabilises their ratings against large swings. When a player's rating crosses the 2199 boundary mid-tournament, the CFC applies a dampening adjustment to avoid double-counting the K-factor change."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do CFC bonus points work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "After 4 or more rated games in an event, two bonuses can apply. The regular bonus activates when your rating gain exceeds 13 × Ke × √n (where Ke = K/32 and n = games played), rewarding genuinely exceptional performance. The lifetime high bonus adds 20 × Ke points if your new rating would set a personal record. Both bonuses are added on top of the standard Elo change."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYCGD8ZQ75"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VYCGD8ZQ75', { 'anonymize_ip': true });
+    </script>
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #ffffff; --bg-secondary: #f5f5f3; --bg-hero: #0c447c;
+            --text: #1a1a1a; --text-secondary: #6b6b6b; --accent: #0c447c;
+            --border: rgba(0,0,0,0.1); --win: #4caf50; --draw: #ff9800;
+            --loss: #f44336; --radius: 12px;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1e1e1e; --bg-secondary: #2a2a2a; --bg-hero: #1a3a5a;
+                --text: #f0f0f0; --text-secondary: #a0a0a0; --accent: #85b7eb;
+                --border: rgba(255,255,255,0.1);
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+            background: var(--bg-secondary); color: var(--text); padding: 1rem;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .container { width: 100%; max-width: 500px; }
+        .hero-title { font-size: 1.25rem; font-weight: 700; }
+        .tab-nav {
+            display: flex;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border);
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            border-radius: 7px;
+            text-decoration: none;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .tab.is-active {
+            background: var(--bg);
+            color: var(--text);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .hero-card {
+            background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 1.5rem; margin-bottom: 1rem; text-align: center; transition: all 0.4s ease; opacity: 0.6;
+        }
+        .hero-card.is-active { background: var(--bg-hero); color: white; opacity: 1; box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+        .new-rating { font-size: 3.5rem; font-weight: 800; line-height: 1; margin: 0.5rem 0; }
+        .label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
+        .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 0.75rem; width: 100%; }
+        .input-stack { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem; width: 100%; }
+        .input-stack:last-child { margin-bottom: 0; }
+        label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+        label span { font-weight: 400; }
+        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); font-size: 1rem; outline: none; display: block; }
+        .result-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 4px; width: 100%; }
+        .res-btn { border: none; padding: 14px; border-radius: 10px; color: white; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+        .win { background: var(--win); } .draw { background: var(--draw); } .loss { background: var(--loss); }
+        table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        th { text-align: left; font-size: 0.7rem; color: var(--text-secondary); padding-bottom: 10px; text-transform: uppercase; }
+        td { padding: 14px 0; border-top: 1px solid var(--border); font-size: 0.95rem; }
+        .change-pill { font-weight: 700; font-family: monospace; text-align: right; }
+        .badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .delete-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.2rem; padding-left: 10px; }
+        .hero-extras {
+            display: none;
+            margin-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 1rem;
+        }
+        .hero-extras-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            text-align: center;
+        }
+        .hero-extras-stat { font-size: 1.4rem; font-weight: 700; margin-top: 0.25rem; }
+        .hero-extras-note { font-size: 0.75rem; opacity: 0.75; margin-top: 0.5rem; }
+
+        /* SEO Content Styles */
+        .seo-content { margin-top: 2rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+        .seo-content h2 { color: var(--text); font-size: 1.1rem; margin-bottom: 0.5rem; margin-top: 1.5rem; }
+        .seo-content a { color: var(--accent); }
+        footer { margin-top: 3rem; padding: 1rem; text-align: center; font-size: 0.75rem; color: var(--text-secondary); width: 100%; border-top: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+
+<main class="container">
+    <nav class="tab-nav" aria-label="Calculator type">
+        <a href="/fide-rating" class="tab">FIDE Rating</a>
+        <a href="/cfc-rating" class="tab is-active">CFC Rating</a>
+    </nav>
+
+    <header style="text-align: center; margin-bottom: 1.5rem;">
+        <h1 class="hero-title">CFC Rating Calculator</h1>
+    </header>
+
+    <div id="hero" class="hero-card" aria-live="polite">
+        <div class="label">New Estimated Rating</div>
+        <div id="cfcResNew" class="new-rating">—</div>
+        <div id="cfcResChange">Add games to calculate</div>
+        <div id="cfcExtras" class="hero-extras">
+            <div class="hero-extras-grid">
+                <div>
+                    <div class="label">Performance</div>
+                    <div id="cfcPerf" class="hero-extras-stat">—</div>
+                </div>
+                <div>
+                    <div class="label">Bonus Pts</div>
+                    <div id="cfcBonus" class="hero-extras-stat">—</div>
+                </div>
+            </div>
+            <div id="cfcBonusBreakdown" class="hero-extras-note"></div>
+        </div>
+    </div>
+
+    <section class="card" aria-label="Settings">
+        <div class="input-stack">
+            <label for="myRating">Current CFC Rating</label>
+            <input type="number" id="myRating" value="1500" inputmode="numeric">
+        </div>
+        <div class="input-stack">
+            <label for="lifeHigh">Lifetime Highest Rating <span>(leave at 3000 if unknown)</span></label>
+            <input type="number" id="lifeHigh" value="3000" inputmode="numeric">
+        </div>
+    </section>
+
+    <section class="card" aria-label="Game Entry">
+        <div class="input-stack">
+            <label for="oppRating">Add Opponent</label>
+            <input type="number" id="oppRating" placeholder="Opponent Rating" inputmode="numeric">
+            <div class="result-actions">
+                <button onclick="addGame(1)" class="res-btn win" aria-label="Add Win">WIN</button>
+                <button onclick="addGame(0.5)" class="res-btn draw" aria-label="Add Draw">DRAW</button>
+                <button onclick="addGame(0)" class="res-btn loss" aria-label="Add Loss">LOSS</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="card" id="tableCard" style="display: none;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Opponent</th>
+                    <th>Result</th>
+                    <th style="text-align:right">Δ Rating</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="gamesList"></tbody>
+        </table>
+    </section>
+
+    <article class="seo-content">
+        <h2>How CFC Ratings Differ from FIDE</h2>
+        <p>Instead of a continuous formula, the <a href="https://www.chess.ca/en/cfc/rules/cfc-handbook-2014/#section-4---cfc-rating-system--fide-rated-events" target="_blank" rel="noopener">CFC Handbook Section 4</a> defines expected score through a 51-band lookup table based on rating difference. Each band covers a range of differences and maps to a fixed expected score, giving slightly different results near band boundaries compared to the <a href="/fide-rating">FIDE formula</a>. CFC also uses a single rating list — there are no separate Classical, Rapid, or Blitz ratings.</p>
+
+        <h2>The 2199 Rating Threshold</h2>
+        <p>CFC uses two K-factors: <strong>K=32</strong> for players rated below 2199, and <strong>K=16</strong> for players rated 2199 or above. The lower K for strong players stabilises their ratings against large swings. When a player's rating crosses the 2199 boundary mid-tournament, the CFC applies a dampening adjustment to avoid double-counting the K-factor change.</p>
+
+        <h2>Bonus Points Explained</h2>
+        <p>After 4 or more rated games in an event, two bonuses can apply. The <strong>regular bonus</strong> activates when your rating gain exceeds <em>13 × Ke × √n</em> (where Ke = K/32 and n = games played), rewarding genuinely exceptional performance beyond what the formula alone captures. The <strong>lifetime high bonus</strong> adds 20 × Ke points if your new rating would set a personal record. Both bonuses are added on top of the standard Elo change.</p>
+    </article>
+</main>
+
+<footer>
+    <p>Unofficial calculator • Not affiliated with Chess Federation of Canada</p>
+</footer>
+
+<script>
+    let state = { myRating: 1500, lifeHigh: 3000, games: [] };
+
+    // CFC official expected score lookup table
+    // Source: CFC Handbook Section 4 — https://www.chess.ca/en/cfc/rules/cfc-handbook-2014/#section-4
+    // Format: [diff_low, diff_high, expected_if_player_higher, expected_if_player_lower]
+    const DIFF_TO_EXPECTED = [
+        [0, 3, .50, .50],
+        [4, 10, .51, .49],
+        [11, 17, .52, .48],
+        [18, 25, .53, .47],
+        [26, 32, .54, .46],
+        [33, 39, .55, .45],
+        [40, 46, .56, .44],
+        [47, 53, .57, .43],
+        [54, 61, .58, .42],
+        [62, 68, .59, .41],
+        [69, 76, .60, .40],
+        [77, 83, .61, .39],
+        [84, 91, .62, .38],
+        [92, 98, .63, .37],
+        [99, 106, .64, .36],
+        [107, 113, .65, .35],
+        [114, 121, .66, .34],
+        [122, 129, .67, .33],
+        [130, 137, .68, .32],
+        [138, 145, .69, .31],
+        [146, 153, .70, .30],
+        [154, 162, .71, .29],
+        [163, 170, .72, .28],
+        [171, 179, .73, .27],
+        [180, 188, .74, .26],
+        [189, 197, .75, .25],
+        [198, 206, .76, .24],
+        [207, 215, .77, .23],
+        [216, 225, .78, .22],
+        [226, 235, .79, .21],
+        [236, 245, .80, .20],
+        [246, 256, .81, .19],
+        [257, 267, .82, .18],
+        [268, 278, .83, .17],
+        [279, 290, .84, .16],
+        [291, 302, .85, .15],
+        [303, 315, .86, .14],
+        [316, 328, .87, .13],
+        [329, 344, .88, .12],
+        [345, 357, .89, .11],
+        [358, 374, .90, .10],
+        [375, 391, .91, .09],
+        [392, 411, .92, .08],
+        [412, 432, .93, .07],
+        [433, 456, .94, .06],
+        [457, 484, .95, .05],
+        [485, 517, .96, .04],
+        [518, 559, .97, .03],
+        [560, 619, .98, .02],
+        [620, 734, .99, .01],
+        [735, 999999, 1.00, .00]
+    ];
+
+    function calc_expected_result(r_player, r_opponent) {
+        const r_diff = Math.abs(r_opponent - r_player);
+        for (let i = 0; i < DIFF_TO_EXPECTED.length; i++) {
+            const d = DIFF_TO_EXPECTED[i];
+            if (r_diff >= d[0] && r_diff <= d[1]) {
+                return (r_player > r_opponent) ? d[2] : d[3];
+            }
+        }
+        return (r_player > r_opponent) ? 1.0 : 0.0;
+    }
+
+    function addGame(res) {
+        const input = document.getElementById('oppRating');
+        const val = parseInt(input.value);
+        if (!val) return;
+
+        gtag('event', 'cfc_add_game', {
+            'opponent_rating': val,
+            'result': res === 1 ? 'win' : res === 0.5 ? 'draw' : 'loss'
+        });
+
+        state.games.push({ opp: val, result: res, id: Date.now() });
+        input.value = '';
+        input.focus();
+        render();
+    }
+
+    function deleteGame(id) {
+        state.games = state.games.filter(g => g.id !== id);
+        render();
+    }
+
+    function render() {
+        state.myRating = parseInt(document.getElementById('myRating').value) || 0;
+        state.lifeHigh = parseInt(document.getElementById('lifeHigh').value) || 3000;
+
+        const r_old = state.myRating;
+        const K = r_old >= 2199 ? 16 : 32;
+        const n = state.games.length;
+        const active = n > 0;
+
+        // Rebuild game table
+        const list = document.getElementById('gamesList');
+        list.innerHTML = '';
+        state.games.forEach(g => {
+            const exp = calc_expected_result(r_old, g.opp);
+            const delta = K * (g.result - exp);
+            const label = g.result === 1 ? 'WIN' : g.result === 0.5 ? 'DRAW' : 'LOSS';
+            const color = g.result === 1 ? 'var(--win)' : g.result === 0.5 ? 'var(--draw)' : 'var(--loss)';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${g.opp}</strong></td>
+                <td><span class="badge" style="background:${color}22; color:${color}">${label}</span></td>
+                <td class="change-pill" style="color:${delta >= 0 ? 'var(--win)' : 'var(--loss)'}">${delta >= 0 ? '+' : ''}${delta.toFixed(1)}</td>
+                <td style="text-align:right"><button class="delete-btn" onclick="deleteGame(${g.id})" aria-label="Remove game">✕</button></td>
+            `;
+            list.appendChild(row);
+        });
+
+        document.getElementById('tableCard').style.display = active ? 'block' : 'none';
+        document.getElementById('hero').classList.toggle('is-active', active);
+
+        if (!active) {
+            document.getElementById('cfcResNew').innerText = '—';
+            document.getElementById('cfcResChange').innerText = 'Add games to calculate';
+            document.getElementById('cfcExtras').style.display = 'none';
+            return;
+        }
+
+        // Full session calculation
+        let score = 0, expected = 0, wins = 0, losses = 0, oppSum = 0;
+        state.games.forEach(g => {
+            score += g.result;
+            expected += calc_expected_result(r_old, g.opp);
+            if (g.result === 1) wins++;
+            if (g.result === 0) losses++;
+            oppSum += g.opp;
+        });
+
+        let r_new = r_old + K * (score - expected);
+        const r_perf = Math.round(oppSum / n + 400 * (wins - losses) / n);
+
+        // 2199 threshold crossing adjustment
+        if (r_old < 2199 && r_new > 2199) {
+            const adjust = (r_new - 2199) / 2;
+            r_new -= adjust;
+        } else if (r_old >= 2199 && r_new < 2199) {
+            const adjust = (2199 - r_new) / 2;
+            r_new -= adjust;
+        }
+
+        // Bonus points (4+ games only)
+        let bonus_reg = 0, bonus_life = 0;
+        if (n >= 4) {
+            const Ke = K / 32;
+            const threshold = 13 * Ke * Math.sqrt(n);
+            const gain = r_new - r_old;
+            if (gain > threshold) bonus_reg = 1.75 * (gain - threshold) * Ke;
+            if (r_new > state.lifeHigh) bonus_life = 20 * Ke;
+            r_new += bonus_reg + bonus_life;
+
+            if (bonus_reg > 0 || bonus_life > 0) {
+                gtag('event', 'cfc_bonus_applied', {
+                    'bonus_reg': Math.round(bonus_reg),
+                    'bonus_life': Math.round(bonus_life),
+                    'r_new': Math.round(r_new)
+                });
+            }
+        }
+
+        const r_final = Math.round(r_new);
+        const delta = r_final - r_old;
+
+        document.getElementById('cfcResNew').innerText = r_final;
+        document.getElementById('cfcResChange').innerText = (delta >= 0 ? '+' : '') + delta;
+
+        if (n >= 4) {
+            document.getElementById('cfcExtras').style.display = 'block';
+            document.getElementById('cfcPerf').innerText = r_perf;
+            document.getElementById('cfcBonus').innerText = Math.round(bonus_reg + bonus_life) || '0';
+            let breakdown = '';
+            if (bonus_reg > 0) breakdown += `Reg +${Math.round(bonus_reg)}`;
+            if (bonus_life > 0) breakdown += (breakdown ? ' · ' : '') + `Life +${Math.round(bonus_life)}`;
+            document.getElementById('cfcBonusBreakdown').innerText = breakdown;
+        } else {
+            document.getElementById('cfcExtras').style.display = 'none';
+        }
+    }
+
+    document.getElementById('myRating').addEventListener('input', render);
+    document.getElementById('lifeHigh').addEventListener('input', render);
+    render();
+</script>
+</body>
+</html>
