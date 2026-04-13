@@ -7,13 +7,11 @@
     { "source": "/about", "destination": "/about.html" },
     { "source": "/about/", "destination": "/about.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/privacy/", "destination": "/privacy.html" }
+    { "source": "/privacy/", "destination": "/privacy.html" },
+    { "source": "/(.*)", "destination": "/404.html" }
   ],
   "redirects": [
     { "source": "/", "destination": "/fide-rating", "permanent": true }
-  ],
-  "errors": [
-    { "statusCode": 404, "destination": "/404.html" }
   ],
   "headers": [
     {
