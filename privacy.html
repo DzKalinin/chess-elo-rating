@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Privacy Policy | Chess Rating Tools</title>
+    <meta name="description" content="Privacy policy for Chess Rating Tools. No personal data collected. Google Analytics used with IP anonymization.">
+    <meta name="author" content="Pro Chess Tools">
+    <meta name="robots" content="noindex, follow">
+
+    <link rel="canonical" href="https://chess-elo-rating.vercel.app/privacy">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♟</text></svg>">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYCGD8ZQ75"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VYCGD8ZQ75', { 'anonymize_ip': true });
+    </script>
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #ffffff; --bg-secondary: #f5f5f3; --bg-hero: #0c447c;
+            --text: #1a1a1a; --text-secondary: #6b6b6b; --accent: #0c447c;
+            --border: rgba(0,0,0,0.1); --radius: 12px;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1e1e1e; --bg-secondary: #2a2a2a; --bg-hero: #1a3a5a;
+                --text: #f0f0f0; --text-secondary: #a0a0a0; --accent: #85b7eb;
+                --border: rgba(255,255,255,0.1);
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+            background: var(--bg-secondary); color: var(--text); padding: 1rem;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .container { width: 100%; max-width: 500px; }
+        .tab-nav {
+            display: flex; background: var(--bg-secondary); padding: 4px;
+            border-radius: 10px; width: 100%; margin-bottom: 1.25rem;
+            border: 1px solid var(--border);
+        }
+        .tab {
+            flex: 1; padding: 10px; border-radius: 7px; text-decoration: none;
+            text-align: center; color: var(--text-secondary); font-size: 0.85rem;
+            font-weight: 600; transition: all 0.2s;
+        }
+        .tab.is-active { background: var(--bg); color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 0.75rem; width: 100%; }
+        .page-title { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem; }
+        .seo-content { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+        .seo-content h2 { color: var(--text); font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; margin-top: 1.25rem; }
+        .seo-content h2:first-child { margin-top: 0; }
+        .seo-content p { margin-bottom: 0.75rem; }
+        .seo-content ul { margin: 0.5rem 0 0.75rem 1.25rem; }
+        .seo-content li { margin-bottom: 0.3rem; }
+        .seo-content a { color: var(--accent); }
+        .updated { font-size: 0.78rem; color: var(--text-secondary); text-align: center; margin-bottom: 1rem; }
+        footer { margin-top: 3rem; padding: 1rem; text-align: center; font-size: 0.75rem; color: var(--text-secondary); width: 100%; border-top: 1px solid var(--border); }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<main class="container">
+    <nav class="tab-nav" aria-label="Calculator type">
+        <a href="/fide-rating" class="tab">FIDE Rating</a>
+        <a href="/cfc-rating" class="tab">CFC Rating</a>
+    </nav>
+
+    <header style="text-align: center; margin-bottom: 1.5rem;">
+        <h1 class="page-title">Privacy Policy</h1>
+        <p class="updated">Last updated: April 2026</p>
+    </header>
+
+    <section class="card">
+        <div class="seo-content">
+            <h2>What data we collect</h2>
+            <p>Chess Rating Tools does not collect, store, or transmit any personal data. All calculations happen locally in your browser — no ratings, game results, or inputs are ever sent to a server.</p>
+
+            <h2>Google Analytics</h2>
+            <p>We use Google Analytics 4 (GA4) to understand how the site is used. GA4 collects:</p>
+            <ul>
+                <li>Pages visited and time spent</li>
+                <li>Device type, browser, and approximate country (IP anonymized)</li>
+                <li>Interaction events (e.g. number of games added to a calculation)</li>
+            </ul>
+            <p>IP addresses are anonymized before being sent to Google. No chess ratings, game results, or any inputs you enter are included in analytics events.</p>
+            <p>Google's data processing is governed by the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>. You can opt out using the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a>.</p>
+
+            <h2>Cookies</h2>
+            <p>Google Analytics sets cookies to distinguish unique visitors and sessions. No other cookies are used by this site.</p>
+
+            <h2>Third-party links</h2>
+            <p>This site links to external sites (FIDE, CFC, GitHub). We are not responsible for their privacy practices.</p>
+
+            <h2>Changes</h2>
+            <p>If this policy changes materially, the "Last updated" date above will reflect that. The site has no user accounts, so no individual notification is possible.</p>
+
+            <h2>Contact</h2>
+            <p>Questions? Open an issue on <a href="https://github.com/DzKalinin/chess-elo-rating" target="_blank" rel="noopener">GitHub</a>.</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p><a href="/fide-rating">FIDE Calculator</a> · <a href="/cfc-rating">CFC Calculator</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a></p>
+</footer>
+
+</body>
+</html>

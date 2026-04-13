@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Page Not Found | Chess Rating Tools</title>
+    <meta name="robots" content="noindex, follow">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♟</text></svg>">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #ffffff; --bg-secondary: #f5f5f3;
+            --text: #1a1a1a; --text-secondary: #6b6b6b; --accent: #0c447c;
+            --border: rgba(0,0,0,0.1); --radius: 12px;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1e1e1e; --bg-secondary: #2a2a2a;
+                --text: #f0f0f0; --text-secondary: #a0a0a0; --accent: #85b7eb;
+                --border: rgba(255,255,255,0.1);
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+            background: var(--bg-secondary); color: var(--text); padding: 1rem;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh;
+        }
+        .container { width: 100%; max-width: 500px; text-align: center; }
+        .piece { font-size: 4rem; margin-bottom: 1rem; }
+        h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+        p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+        .links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-block; padding: 12px 20px; border-radius: 10px;
+            text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            background: var(--accent); color: white; transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.85; }
+        .btn.secondary {
+            background: var(--bg); color: var(--text);
+            border: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        footer { margin-top: 3rem; font-size: 0.75rem; color: var(--text-secondary); }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<main class="container">
+    <div class="piece" role="img" aria-label="Chess pawn">♟</div>
+    <h1>Page not found</h1>
+    <p>This square is empty. The calculators are still here:</p>
+    <nav class="links" aria-label="Main pages">
+        <a href="/fide-rating" class="btn">FIDE Calculator</a>
+        <a href="/cfc-rating" class="btn secondary">CFC Calculator</a>
+    </nav>
+</main>
+
+<footer>
+    <p><a href="/about">About</a> · <a href="/privacy">Privacy</a></p>
+</footer>
+
+</body>
+</html>

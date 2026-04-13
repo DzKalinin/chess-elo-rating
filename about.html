@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About | Chess Rating Tools</title>
+    <meta name="description" content="About Chess Rating Tools — free, unofficial calculators for FIDE and CFC chess ratings. Built on official regulations, no sign-up required.">
+    <meta name="author" content="Pro Chess Tools">
+
+    <link rel="canonical" href="https://chess-elo-rating.vercel.app/about">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="About | Chess Rating Tools">
+    <meta property="og:description" content="Free, unofficial calculators for FIDE and CFC chess ratings. Built on official regulations, no sign-up required.">
+    <meta property="og:site_name" content="Chess Rating Tools">
+    <meta property="og:url" content="https://chess-elo-rating.vercel.app/about">
+    <meta property="og:image" content="https://chess-elo-rating.vercel.app/og-image.svg">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♟</text></svg>">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYCGD8ZQ75"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VYCGD8ZQ75', { 'anonymize_ip': true });
+    </script>
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #ffffff; --bg-secondary: #f5f5f3; --bg-hero: #0c447c;
+            --text: #1a1a1a; --text-secondary: #6b6b6b; --accent: #0c447c;
+            --border: rgba(0,0,0,0.1); --radius: 12px;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1e1e1e; --bg-secondary: #2a2a2a; --bg-hero: #1a3a5a;
+                --text: #f0f0f0; --text-secondary: #a0a0a0; --accent: #85b7eb;
+                --border: rgba(255,255,255,0.1);
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+            background: var(--bg-secondary); color: var(--text); padding: 1rem;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .container { width: 100%; max-width: 500px; }
+        .tab-nav {
+            display: flex; background: var(--bg-secondary); padding: 4px;
+            border-radius: 10px; width: 100%; margin-bottom: 1.25rem;
+            border: 1px solid var(--border);
+        }
+        .tab {
+            flex: 1; padding: 10px; border-radius: 7px; text-decoration: none;
+            text-align: center; color: var(--text-secondary); font-size: 0.85rem;
+            font-weight: 600; transition: all 0.2s;
+        }
+        .tab.is-active { background: var(--bg); color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 0.75rem; width: 100%; }
+        .page-title { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem; }
+        .seo-content { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+        .seo-content h2 { color: var(--text); font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; margin-top: 1.25rem; }
+        .seo-content h2:first-child { margin-top: 0; }
+        .seo-content p { margin-bottom: 0.75rem; }
+        .seo-content a { color: var(--accent); }
+        .disclaimer { background: var(--bg-secondary); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 12px 14px; font-size: 0.82rem; color: var(--text-secondary); margin-top: 1rem; }
+        footer { margin-top: 3rem; padding: 1rem; text-align: center; font-size: 0.75rem; color: var(--text-secondary); width: 100%; border-top: 1px solid var(--border); }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<main class="container">
+    <nav class="tab-nav" aria-label="Calculator type">
+        <a href="/fide-rating" class="tab">FIDE Rating</a>
+        <a href="/cfc-rating" class="tab">CFC Rating</a>
+    </nav>
+
+    <header style="text-align: center; margin-bottom: 1.5rem;">
+        <h1 class="page-title">About Chess Rating Tools</h1>
+    </header>
+
+    <section class="card">
+        <div class="seo-content">
+            <h2>What this is</h2>
+            <p>Free, unofficial calculators for estimating chess rating changes under <a href="/fide-rating">FIDE</a> and <a href="/cfc-rating">CFC</a> regulations. Enter your current rating, add game results, and see your projected new rating instantly — no sign-up, no account, no data stored.</p>
+
+            <h2>Accuracy</h2>
+            <p>Calculations follow the official FIDE Rating Regulations (effective March 2024) and CFC Rating Regulations. The FIDE calculator includes the 2650+ Classical exception (October 2025) and the faster time-control amendment (January 2026).</p>
+            <p>Results are estimates. Official ratings are calculated by FIDE and CFC from full tournament data submitted by arbiters — this tool cannot account for provisional ratings, initial rating establishment, or performance rating norms.</p>
+
+            <div class="disclaimer">
+                ⚠️ <strong>Unofficial tool.</strong> Always verify your official rating at <a href="https://ratings.fide.com" target="_blank" rel="noopener">ratings.fide.com</a> or <a href="https://www.chess.ca" target="_blank" rel="noopener">chess.ca</a>.
+            </div>
+
+            <h2>Last updated</h2>
+            <p>April 2026. Rules updated to reflect FIDE 2026 regulations.</p>
+
+            <h2>Privacy</h2>
+            <p>No personal data is collected or stored. Google Analytics is used to measure page visits with IP anonymization enabled. See the <a href="/privacy">Privacy Policy</a> for details.</p>
+
+            <h2>Contact</h2>
+            <p>Found a bug or a regulation that's out of date? Open an issue on <a href="https://github.com/DzKalinin/chess-elo-rating" target="_blank" rel="noopener">GitHub</a>.</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p><a href="/fide-rating">FIDE Calculator</a> · <a href="/cfc-rating">CFC Calculator</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a></p>
+</footer>
+
+</body>
+</html>

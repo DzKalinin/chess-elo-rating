@@ -3,9 +3,26 @@
     { "source": "/fide-rating", "destination": "/fide-rating.html" },
     { "source": "/cfc-rating", "destination": "/cfc-rating.html" },
     { "source": "/fide-rating/", "destination": "/fide-rating.html" },
-    { "source": "/cfc-rating/", "destination": "/cfc-rating.html" }
+    { "source": "/cfc-rating/", "destination": "/cfc-rating.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/about/", "destination": "/about.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/privacy/", "destination": "/privacy.html" }
   ],
   "redirects": [
     { "source": "/", "destination": "/fide-rating", "permanent": true }
+  ],
+  "errors": [
+    { "statusCode": 404, "destination": "/404.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
   ]
 }
