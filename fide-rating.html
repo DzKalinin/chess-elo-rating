@@ -374,11 +374,36 @@
         document.querySelectorAll('.res-btn').forEach(b => b.disabled = invalid);
     }
 
+    function getRatingBucket(r) {
+        if (r < 1000) return '<1000';
+        if (r < 1200) return '1000-1199';
+        if (r < 1400) return '1200-1399';
+        if (r < 1600) return '1400-1599';
+        if (r < 1800) return '1600-1799';
+        if (r < 2000) return '1800-1999';
+        if (r < 2200) return '2000-2199';
+        if (r < 2400) return '2200-2399';
+        if (r < 2500) return '2400-2499';
+        if (r < 2600) return '2500-2599';
+        if (r < 2700) return '2600-2699';
+        if (r < 2800) return '2700-2799';
+        if (r < 2900) return '2800-2899';
+        return '2900+';
+    }
+
     function addGame(res) {
         const input = document.getElementById('oppRating');
         const val = parseInt(input.value);
         if (!input.value) return;
         if (!validateRating('oppRating', 'oppRating-hint')) return;
+
+        if (state.games.length === 0 && typeof gtag === 'function') {
+            gtag('event', 'user_rating_set', {
+                rating_bucket: getRatingBucket(state.myRating),
+                time_control: state.type,
+                k_factor: state.k
+            });
+        }
 
         if (typeof gtag === 'function') gtag('event', 'calculate_game', {
           'opponent_rating': val,
