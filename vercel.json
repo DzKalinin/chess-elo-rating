@@ -7,10 +7,7 @@
     { "source": "/about", "destination": "/about.html" },
     { "source": "/about/", "destination": "/about.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/privacy/", "destination": "/privacy.html" },
-    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
-    { "source": "/robots.txt", "destination": "/robots.txt" },
-    { "source": "/(.*)", "destination": "/404.html" }
+    { "source": "/privacy/", "destination": "/privacy.html" }
   ],
   "redirects": [
     { "source": "/", "destination": "/fide-rating", "permanent": true }
