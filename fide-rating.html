@@ -180,9 +180,10 @@
         .new-rating { font-size: 3.5rem; font-weight: 800; line-height: 1; margin: 0.5rem 0; }
         .label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
         .score-line { font-size: 0.8rem; opacity: 0.8; margin-top: 0.4rem; letter-spacing: 0.03em; }
-        .copy-btn { display: none; margin-top: 0.75rem; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; border-radius: 6px; padding: 6px 14px; font-size: 0.78rem; cursor: pointer; transition: background 0.2s; }
-        .hero-card.is-active .copy-btn { display: inline-block; }
-        .copy-btn:hover { background: rgba(255,255,255,0.25); }
+        .hero-actions { display: none; gap: 8px; margin-top: 0.75rem; justify-content: center; }
+        .hero-card.is-active .hero-actions { display: flex; }
+        .copy-btn, .share-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; border-radius: 6px; padding: 6px 14px; font-size: 0.78rem; cursor: pointer; transition: background 0.2s; }
+        .copy-btn:hover, .share-btn:hover { background: rgba(255,255,255,0.25); }
         .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 0.75rem; width: 100%; }
         .input-stack { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem; width: 100%; }
         .input-stack:last-child { margin-bottom: 0; }
@@ -242,7 +243,10 @@
         <div id="resNew" class="new-rating">—</div>
         <div id="resChange">Enter rating · add games below</div>
         <div id="resScore" class="score-line"></div>
-        <button class="copy-btn" onclick="copyResult()">Copy result</button>
+        <div class="hero-actions">
+            <button class="copy-btn" onclick="copyResult()">Copy result</button>
+            <button class="share-btn" onclick="shareResult()">Share</button>
+        </div>
     </div>
 
     <section class="card" aria-label="Settings">
@@ -495,6 +499,19 @@
             btn.textContent = 'Copied!';
             setTimeout(() => btn.textContent = 'Copy result', 1500);
         });
+    }
+
+    function shareResult() {
+        const newRating = document.getElementById('resNew').innerText;
+        const change = document.getElementById('resChange').innerText;
+        const score = document.getElementById('resScore').innerText;
+        const text = `My new FIDE rating: ${newRating} (${change}) — ${score}`;
+        const url = 'https://chess-elo-rating.vercel.app/fide-rating';
+        if (navigator.share) {
+            navigator.share({ title: 'Chess Elo Calculator', text, url });
+        } else {
+            window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text + '\n' + url), '_blank', 'noopener');
+        }
     }
 
     document.getElementById('myRating').addEventListener('input', () => { validateRating('myRating', 'myRating-hint'); render(); });
