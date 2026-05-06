@@ -4,27 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>FIDE Rating Calculator | Chess Elo Estimator 2026</title>
-    <meta name="description" content="Calculate your new FIDE chess rating under 2026 regulations. Supports Classical, Rapid, and Blitz, all K-factors, and the 2650+ elite exception that removes the 400-point cap.">
-    <meta name="keywords" content="FIDE rating calculator, chess elo calculator, FIDE 2026 rules, chess rating estimator, 2650 elite rule">
+    <title>FIDE Elo Estimator & Rating Calculator | Chess Elo Calculator 2026</title>
+    <meta name="description" content="Free FIDE chess elo estimator and rating calculator. Enter your games and instantly see your new rating — supports Classical, Rapid, Blitz, all K-factors, and the 2650+ elite exception.">
+    <meta name="keywords" content="fide rating calculator, chess elo estimator, elo rating calculator, elo calculator, fide elo calculator, chess rating calculator, fide 2026 rules, elo estimator">
     <meta name="author" content="Pro Chess Tools">
 
     <link rel="canonical" href="https://chess-elo-rating.vercel.app/fide-rating">
     <meta name="google-site-verification" content="aaaoqnu5nFysU5dAnKRFdYU3l0P3lUhTuBeA4FXlwio">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="FIDE Rating Calculator 2026 | Chess Elo Estimator">
-    <meta property="og:description" content="Fast, mobile-friendly calculator for FIDE chess ratings including the 2026 elite player regulations and 2650+ exception.">
+    <meta property="og:title" content="FIDE Elo Estimator & Rating Calculator 2026">
+    <meta property="og:description" content="Free FIDE chess elo estimator and rating calculator. Enter your games and instantly see your new rating — supports Classical, Rapid, Blitz, all K-factors, and the 2650+ elite exception.">
     <meta property="og:site_name" content="Chess Rating Tools">
     <meta property="og:url" content="https://chess-elo-rating.vercel.app/fide-rating">
-    <meta property="og:image" content="https://chess-elo-rating.vercel.app/og-image.svg">
+    <meta property="og:image" content="https://chess-elo-rating.vercel.app/fide-full.png">
     <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:image:height" content="1867">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FIDE Rating Calculator 2026 | Chess Elo Estimator">
-    <meta name="twitter:description" content="Fast, mobile-friendly calculator for FIDE chess ratings including the 2026 elite player regulations and 2650+ exception.">
-    <meta name="twitter:image" content="https://chess-elo-rating.vercel.app/og-image.svg">
+    <meta name="twitter:title" content="FIDE Elo Estimator & Rating Calculator 2026">
+    <meta name="twitter:description" content="Free FIDE chess elo estimator and rating calculator. Enter your games and instantly see your new rating — supports Classical, Rapid, Blitz, all K-factors, and the 2650+ elite exception.">
+    <meta name="twitter:image" content="https://chess-elo-rating.vercel.app/fide-full.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♟</text></svg>">
     <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -33,10 +33,11 @@
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "FIDE Rating Calculator 2026",
+      "name": "FIDE Elo Estimator & Rating Calculator 2026",
       "url": "https://chess-elo-rating.vercel.app/fide-rating",
-      "description": "Calculate your new FIDE chess rating under 2026 regulations. Supports Classical, Rapid, and Blitz, all K-factors, and the 2650+ elite exception that removes the 400-point cap.",
-      "screenshot": "https://chess-elo-rating.vercel.app/og-image.svg",
+      "description": "Free FIDE chess elo estimator and rating calculator. Enter your games and instantly see your new rating — supports Classical, Rapid, Blitz, all K-factors, and the 2650+ elite exception.",
+      "screenshot": "https://chess-elo-rating.vercel.app/fide-full.png",
+      "dateModified": "2026-05-06",
       "operatingSystem": "Web",
       "applicationCategory": "UtilityApplication",
       "offers": {
@@ -89,6 +90,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Expected score: E = 1 / (1 + 10^((opponent − player) / 400)). Rating change: Δ = K × (result − E), where result is 1 for a win, 0.5 for a draw, 0 for a loss. The K-factor controls how much a single result can move your rating."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a chess elo estimator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A chess elo estimator calculates the expected change to your FIDE rating after a game or tournament. It applies the official Elo formula — E = 1 / (1 + 10^(diff/400)) — with your K-factor and actual results to show your new rating instantly, without waiting for the official FIDE rating list update."
           }
         },
         {
@@ -225,7 +234,7 @@
     </nav>
 
     <header style="text-align: center; margin-bottom: 1.5rem;">
-        <h1 class="hero-title">FIDE Rating Calculator</h1>
+        <h1 class="hero-title">FIDE Rating Calculator &amp; Elo Estimator</h1>
     </header>
 
     <div id="hero" class="hero-card" aria-live="polite">
@@ -297,6 +306,9 @@
     </section>
 
     <article class="seo-content">
+        <h2>Chess Elo Rating Calculator — How It Works</h2>
+        <p>This free elo rating calculator uses the official FIDE expected-score formula to predict your new rating after any tournament or individual game. Enter your current rating, select your K-factor, and add results — the elo estimator updates instantly.</p>
+
         <h2>About the FIDE Rating Regulations</h2>
         <p>This calculator implements the official <a href="https://handbook.fide.com/chapter/B022024" target="_blank" rel="noopener">FIDE Rating Regulations (effective March 2024)</a>, the primary document governing K-factors, expected score, and initial rating. Two amendments extend those rules: the 2650+ Classical exception (October 2025) and the faster time-control inclusion (January 2026).</p>
 
@@ -306,7 +318,7 @@
         <h2>Faster Time Controls Now Count</h2>
         <p>A <a href="https://www.fide.com/fide-updates-rating-regulations-to-include-faster-time-controls-for-major-events/" target="_blank" rel="noopener">January 2026 resolution</a> allows certain events with time controls such as 45 minutes + 30 seconds increment to be rated as standard Classical chess, provided they meet FIDE's criteria for major events. This calculator applies Classical rating rules to all games you enter.</p>
 
-        <h2>How Elo Change is Calculated</h2>
+        <h2>Elo Calculator Formula</h2>
         <p>Expected score: <strong>E = 1 / (1 + 10<sup>(opponent − player) / 400</sup>)</strong>. Rating change: <strong>Δ = K × (result − E)</strong>, where result is 1 for a win, 0.5 for a draw, 0 for a loss. The K-factor controls how much a single result can move your rating.</p>
 
         <h2>FIDE vs CFC Rating Systems</h2>
