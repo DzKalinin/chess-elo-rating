@@ -36,10 +36,7 @@ body {
 .new-rating { font-size: 3.5rem; font-weight: 800; line-height: 1; margin: 0.5rem 0; }
 .label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
 .score-line { font-size: 0.8rem; opacity: 0.8; margin-top: 0.4rem; letter-spacing: 0.03em; }
-.hero-actions { display: none; gap: 8px; margin-top: 0.75rem; justify-content: center; }
-.hero-card.is-active .hero-actions { display: flex; }
-.copy-btn, .share-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; border-radius: 6px; padding: 6px 14px; font-size: 0.78rem; cursor: pointer; transition: background 0.2s; }
-.copy-btn:hover, .share-btn:hover { background: rgba(255,255,255,0.25); }
+
 .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 0.75rem; width: 100%; }
 .input-stack { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem; width: 100%; }
 .input-stack:last-child { margin-bottom: 0; }

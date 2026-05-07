@@ -43,28 +43,7 @@ function getRatingBucket(r) {
     return '2900+';
 }
 
-function copyResult() {
-    const newRating = document.getElementById('resNew').innerText;
-    const change = document.getElementById('resChange').innerText;
-    const score = document.getElementById('resScore').innerText;
-    navigator.clipboard.writeText(`My new ${PAGE_CONFIG.label} rating: ${newRating} (${change})  ${score}`).then(() => {
-        const btn = document.querySelector('.copy-btn');
-        btn.textContent = 'Copied!';
-        setTimeout(() => btn.textContent = 'Copy result', 1500);
-    });
-}
 
-function shareResult() {
-    const newRating = document.getElementById('resNew').innerText;
-    const change = document.getElementById('resChange').innerText;
-    const score = document.getElementById('resScore').innerText;
-    const text = `My new ${PAGE_CONFIG.label} rating: ${newRating} (${change}) — ${score}`;
-    if (navigator.share) {
-        navigator.share({ title: PAGE_CONFIG.shareTitle, text, url: PAGE_CONFIG.url });
-    } else {
-        window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text + '\n' + PAGE_CONFIG.url), '_blank', 'noopener');
-    }
-}
 
 // Cookie consent — this script loads at end of body so DOM is ready
 document.getElementById('cookie-accept').onclick = function() {
