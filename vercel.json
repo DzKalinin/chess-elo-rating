@@ -1,8 +1,6 @@
 {
   "rewrites": [
-    { "source": "/fide-rating", "destination": "/fide-rating.html" },
     { "source": "/cfc-rating", "destination": "/cfc-rating.html" },
-    { "source": "/fide-rating/", "destination": "/fide-rating.html" },
     { "source": "/cfc-rating/", "destination": "/cfc-rating.html" },
     { "source": "/about", "destination": "/about.html" },
     { "source": "/about/", "destination": "/about.html" },
@@ -10,7 +8,8 @@
     { "source": "/privacy/", "destination": "/privacy.html" }
   ],
   "redirects": [
-    { "source": "/", "destination": "/fide-rating", "permanent": true }
+    { "source": "/fide-rating", "destination": "/", "permanent": true },
+    { "source": "/fide-rating/", "destination": "/", "permanent": true }
   ],
   "headers": [
     {
